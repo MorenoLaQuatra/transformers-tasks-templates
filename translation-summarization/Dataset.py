@@ -4,7 +4,7 @@ import torch
 import transformers
 
 
-class ClassificationDataset(torch.utils.data.Dataset):
+class Dataset(torch.utils.data.Dataset):
     """
     This class is inteded for sequence classification tasks.
     :param texts: List of texts to be tokenized.
@@ -18,19 +18,21 @@ class ClassificationDataset(torch.utils.data.Dataset):
 
     def __init__(
         self,
-        texts: List[str],
-        labels: List[int],
+        source_text: List[str],
+        target_text: List[str],
         model_tag: str,
-        max_length: int = 512,
+        max_input_length: int = 1024,
+        max_output_length: int = 128,
         padding: str = "max_length",
         truncation: bool = True,
     ):
 
-        self.texts = texts
-        self.labels = labels
+        self.source_text = source_text
+        self.target_text = target_text
+        self.max_input_length = max_input_length
+        self.max_output_length = max_output_length
         self.tokenizer = transformers.AutoTokenizer.from_pretrained(model_tag)
         self.model_tag = model_tag
-        self.max_length = max_length
         self.padding = padding
         self.truncation = truncation
 
@@ -40,19 +42,30 @@ class ClassificationDataset(torch.utils.data.Dataset):
         :param idx: The index of the text and label to be returned.
         :return: A dictionary containing the tokenized text (with attention mask) and the label.
         """
-        enc = self.tokenizer(
-            self.texts[idx],
-            max_length=self.max_length,
+        input = self.tokenizer(
+            self.source_text[idx],
+            max_length=self.max_input_length,
             padding=self.padding,
             truncation=self.truncation,
             return_tensors="pt",
         )
+
+        with tokenizer.as_target_tokenizer():
+            output = self.tokenizer(
+                self.target_text[idx],
+                max_length=self.max_output_length,
+                padding=self.padding,
+                truncation=self.truncation,
+                return_tensors="pt",
+            )
+
         item = {
-            "input_ids": enc["input_ids"].squeeze(),
-            "attention_mask": enc["attention_mask"].squeeze(),
-            "labels": torch.tensor(self.labels[idx]),
+            "input_ids": input["input_ids"].squeeze(),
+            "attention_mask": input["attention_mask"].squeeze(),
+            "labels": output["input_ids"].squeeze(),
         }
+
         return item
 
     def __len__(self):
-        return len(self.labels)
+        return len(self.source_text)

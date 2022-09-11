@@ -6,7 +6,7 @@ from sklearn.model_selection import train_test_split
 import torch
 import transformers
 
-from ClassificationDataset import ClassificationDataset
+from Dataset import Dataset
 from parsing_arguments import parse_arguments
 
 # it removes the warning for the number of threads used for data loading
@@ -64,7 +64,7 @@ Instantiating the dataset objects for each split.
 !!! The dataloaders are created inside the Trainer object !!!
 ############################################################################################################
 """
-sequence_classification_train_dataset = ClassificationDataset(
+sequence_classification_train_dataset = Dataset(
     texts=train_list_text,
     labels=train_list_labels,
     model_tag=args.MODEL_TAG,
@@ -73,7 +73,7 @@ sequence_classification_train_dataset = ClassificationDataset(
     truncation=True,
 )
 
-sequence_classification_val_dataset = ClassificationDataset(
+sequence_classification_val_dataset = Dataset(
     texts=val_list_text,
     labels=val_list_labels,
     model_tag=args.MODEL_TAG,
@@ -82,7 +82,7 @@ sequence_classification_val_dataset = ClassificationDataset(
     truncation=True,
 )
 
-sequence_classification_test_dataset = ClassificationDataset(
+sequence_classification_test_dataset = Dataset(
     texts=test_list_text,
     labels=test_list_labels,
     model_tag=args.MODEL_TAG,

@@ -4,7 +4,7 @@ This folder contains the training scripts and the dataset class for training a s
 
 Hereafter is a description of each file:
 
-- `ClassificationDataset.py`: it contains the class for managing the dataset. The `__get_item__` method is required to retrieve the samples from the dataset. Text tokenization and padding are performed by the method `__get_item__`. If you want to add new preprocessing steps, you need to add this code inside the `__get_item__` method.
+- `Dataset.py`: it contains the class for managing the dataset. The `__get_item__` method is required to retrieve the samples from the dataset. Text tokenization and padding are performed by the method `__get_item__`. If you want to add new preprocessing steps, you need to add this code inside the `__get_item__` method.
 - `train_test_clf.py`: it contains the script to train and test the classification model. It uses the Trainer class provided by the HuggingFace transformers library.
 - `parsing_arguments.py`: it contains the class for parsing the arguments used to train and test the model. Feel free to add new arguments if you need to. You should also change the default values in `train_test.py` to match the new arguments. 
 
