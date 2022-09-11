@@ -43,8 +43,12 @@ list_text = dataset["train"]["text"]
 list_labels = dataset["train"]["hate_speech_score"]
 
 dataset = zip(list_text, list_labels)
-train_dataset, test_dataset = sklearn.model_selection.train_test_split(dataset, test_size=0.2, random_state=42)
-val_dataset, test_dataset = skleearn.model_selection.train_test_split(test_dataset, test_size=0.5, random_state=42)
+train_dataset, test_dataset = sklearn.model_selection.train_test_split(
+    dataset, test_size=0.2, random_state=42
+)
+val_dataset, test_dataset = skleearn.model_selection.train_test_split(
+    test_dataset, test_size=0.5, random_state=42
+)
 
 train_list_text, train_list_labels = zip(*train_dataset)
 val_list_text, val_list_labels = zip(*val_dataset)
@@ -128,7 +132,6 @@ def compute_metrics(pred):
     preds = pred.predictions.argmax(-1)
     mae = sklearn.metrics.mean_absolute_error(labels, preds)
     return {"mae": mae}
-
 
 
 """
