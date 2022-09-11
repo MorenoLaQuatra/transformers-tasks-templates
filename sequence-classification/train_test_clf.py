@@ -142,6 +142,7 @@ trainer = transformers.Trainer(
     train_dataset=sequence_classification_train_dataset,
     eval_dataset=sequence_classification_val_dataset,
     compute_metrics=compute_metrics,
+    metric_for_best_model="accuracy",
 )
 
 trainer.train()
