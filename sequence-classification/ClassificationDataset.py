@@ -40,14 +40,18 @@ class ClassificationDataset(torch.utils.data.Dataset):
         :param idx: The index of the text and label to be returned.
         :return: A dictionary containing the tokenized text (with attention mask) and the label.
         """
-        item = self.tokenizer(
+        enc = self.tokenizer(
             self.texts[idx],
             max_length=self.max_length,
             padding=self.padding,
             truncation=self.truncation,
             return_tensors="pt",
         )
-        item["labels"] = torch.tensor(self.labels[idx])
+        item = {
+            "input_ids": enc["input_ids"].squeeze(),
+            "attention_mask": enc["attention_mask"].squeeze(),
+            "labels": torch.tensor(self.labels[idx]),
+        }
         return item
 
     def __len__(self):

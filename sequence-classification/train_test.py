@@ -1,9 +1,15 @@
-import transformers
-import torch
+import os
 import argparse
+
 import sklearn
+import torch
+import transformers
+
 from ClassificationDataset import ClassificationDataset
 from parsing_arguments import parse_arguments
+
+# it removes the warning for the number of threads used for data loading
+os.environ["TOKENIZERS_PARALLELISM"] = "true"
 
 args = parse_arguments()
 
