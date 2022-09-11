@@ -38,16 +38,25 @@ Example using a dataset from datasets library.
 """
 from datasets import load_dataset
 
-dataset = load_dataset("ucberkeley-dlab/measuring-hate-speech")["train"]
+dataset = load_dataset("ucberkeley-dlab/measuring-hate-speech")["train"].to_pandas()
 
 train_dataset, test_dataset = train_test_split(dataset, test_size=0.2, random_state=42)
 val_dataset, test_dataset = train_test_split(
     test_dataset, test_size=0.5, random_state=42
 )
 
-train_list_text, train_list_labels = train_dataset["text"], train_dataset["label"]
-val_list_text, val_list_labels = val_dataset["text"], val_dataset["label"]
-test_list_text, test_list_labels = test_dataset["text"], test_dataset["label"]
+train_list_text, train_list_labels = (
+    train_dataset["text"].tolist(),
+    train_dataset["hate_speech_score"].tolist(),
+)
+val_list_text, val_list_labels = (
+    val_dataset["text"].tolist(),
+    val_dataset["hate_speech_score"].tolist(),
+)
+test_list_text, test_list_labels = (
+    test_dataset["text"].tolist(),
+    test_dataset["hate_speech_score"].tolist(),
+)
 
 """
 ############################################################################################################
@@ -112,6 +121,8 @@ training_arguments = transformers.TrainingArguments(
     save_total_limit=args.SAVE_TOTAL_LIMIT,
     no_cuda=not (args.USE_CUDA),
     fp16=args.FP16,
+    metric_for_best_model="mae",
+    greater_is_better=False,
 )
 
 """
@@ -142,8 +153,6 @@ trainer = transformers.Trainer(
     train_dataset=sequence_classification_train_dataset,
     eval_dataset=sequence_classification_val_dataset,
     compute_metrics=compute_metrics,
-    metric_for_best_model="mae",
-    greater_is_better=False,
 )
 
 trainer.train()

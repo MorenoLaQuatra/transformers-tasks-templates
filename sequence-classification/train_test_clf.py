@@ -109,6 +109,7 @@ training_arguments = transformers.TrainingArguments(
     save_total_limit=args.SAVE_TOTAL_LIMIT,
     no_cuda=not (args.USE_CUDA),
     fp16=args.FP16,
+    metric_for_best_model="accuracy",
 )
 
 """
@@ -142,7 +143,6 @@ trainer = transformers.Trainer(
     train_dataset=sequence_classification_train_dataset,
     eval_dataset=sequence_classification_val_dataset,
     compute_metrics=compute_metrics,
-    metric_for_best_model="accuracy",
 )
 
 trainer.train()
