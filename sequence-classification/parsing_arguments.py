@@ -86,8 +86,8 @@ def parse_arguments():
 
     parser.add_argument(
         "--FP16",
-        type=bool,
         default=False,
+        action="store_true",
         help="Whether to use 16-bit (mixed) precision instead of 32-bit.",
     )
 

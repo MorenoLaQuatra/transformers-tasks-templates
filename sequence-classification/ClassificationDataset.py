@@ -1,3 +1,5 @@
+from typing import List
+
 import torch
 import transformers
 
@@ -26,7 +28,7 @@ class ClassificationDataset(torch.utils.data.Dataset):
 
         self.texts = texts
         self.labels = labels
-        self.tokenizer = AutoTokenizer.from_pretrained(model_tag)
+        self.tokenizer = transformers.AutoTokenizer.from_pretrained(model_tag)
         self.model_tag = model_tag
         self.max_length = max_length
         self.padding = padding

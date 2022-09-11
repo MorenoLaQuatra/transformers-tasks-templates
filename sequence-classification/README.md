@@ -14,7 +14,7 @@ You can use the following command to train the classification model on the [emot
 
 ```python
 python train_test.py \
-    --MODEL_TAG bert-base-cased \
+    --MODEL_TAG distilbert-base-cased \
     --BATCH_SIZE 32 \
     --EPOCHS 10 \
     --CHECKPOINT_DIR checkpoints \

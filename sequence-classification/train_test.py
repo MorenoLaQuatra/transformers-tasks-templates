@@ -2,6 +2,10 @@ import transformers
 import torch
 import argparse
 import sklearn
+from ClassificationDataset import ClassificationDataset
+from parsing_arguments import parse_arguments
+
+args = parse_arguments()
 
 """
 ############################################################################################################
@@ -42,7 +46,7 @@ Instantiating the dataset objects for each split.
 !!! The dataloaders are created inside the Trainer object !!!
 ############################################################################################################
 """
-sequence_classification_train_dataset = transformers.SequenceClassificationDataset(
+sequence_classification_train_dataset = ClassificationDataset(
     texts=train_list_text,
     labels=train_list_labels,
     model_tag=args.MODEL_TAG,
@@ -51,7 +55,7 @@ sequence_classification_train_dataset = transformers.SequenceClassificationDatas
     truncation=True,
 )
 
-sequence_classification_val_dataset = transformers.SequenceClassificationDataset(
+sequence_classification_val_dataset = ClassificationDataset(
     texts=val_list_text,
     labels=val_list_labels,
     model_tag=args.MODEL_TAG,
@@ -60,7 +64,7 @@ sequence_classification_val_dataset = transformers.SequenceClassificationDataset
     truncation=True,
 )
 
-sequence_classification_test_dataset = transformers.SequenceClassificationDataset(
+sequence_classification_test_dataset = ClassificationDataset(
     texts=test_list_text,
     labels=test_list_labels,
     model_tag=args.MODEL_TAG,
