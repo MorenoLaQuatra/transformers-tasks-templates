@@ -78,6 +78,20 @@ def parse_arguments():
     )
 
     parser.add_argument(
+        "--SAVE_TOTAL_LIMIT",
+        type=int,
+        default=2,
+        help="The maximum number of checkpoints that will be saved. The best checkpoint will always be saved.",
+    )
+
+    parser.add_argument(
+        "--FP16",
+        type=bool,
+        default=False,
+        help="Whether to use 16-bit (mixed) precision instead of 32-bit.",
+    )
+
+    parser.add_argument(
         "--USE_CUDA", default=False, action="store_true", help="Enable cuda computation"
     )
 

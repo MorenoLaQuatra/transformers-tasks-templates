@@ -96,6 +96,9 @@ training_arguments = transformers.TrainingArguments(
     load_best_model_at_end=True,
     learning_rate=args.LEARNING_RATE,
     dataloader_num_workers=args.DATALOADER_NUM_WORKERS,
+    save_total_limit=args.SAVE_TOTAL_LIMIT,
+    no_cuda=not (args.USE_CUDA),
+    fp16=args.FP16,
 )
 
 """

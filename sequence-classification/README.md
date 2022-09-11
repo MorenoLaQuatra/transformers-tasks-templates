@@ -24,4 +24,6 @@ python train_test.py \
     --LEARNING_RATE 5e-5 \
     --DATALOADER_NUM_WORKERS 4 \
     --USE_CUDA \
+    --SAVE_TOTAL_LIMIT 2 \
+    --FP16 
 ```
