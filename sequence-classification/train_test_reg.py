@@ -2,6 +2,7 @@ import os
 import argparse
 
 import sklearn
+from sklearn.model_selection import train_test_split
 import torch
 import transformers
 
@@ -37,22 +38,16 @@ Example using a dataset from datasets library.
 """
 from datasets import load_dataset
 
-dataset = load_dataset("ucberkeley-dlab/measuring-hate-speech")
+dataset = load_dataset("ucberkeley-dlab/measuring-hate-speech")["train"]
 
-list_text = dataset["train"]["text"]
-list_labels = dataset["train"]["hate_speech_score"]
-
-dataset = zip(list_text, list_labels)
-train_dataset, test_dataset = sklearn.model_selection.train_test_split(
-    dataset, test_size=0.2, random_state=42
-)
-val_dataset, test_dataset = skleearn.model_selection.train_test_split(
+train_dataset, test_dataset = train_test_split(dataset, test_size=0.2, random_state=42)
+val_dataset, test_dataset = train_test_split(
     test_dataset, test_size=0.5, random_state=42
 )
 
-train_list_text, train_list_labels = zip(*train_dataset)
-val_list_text, val_list_labels = zip(*val_dataset)
-test_list_text, test_list_labels = zip(*test_dataset)
+train_list_text, train_list_labels = train_dataset["text"], train_dataset["label"]
+val_list_text, val_list_labels = val_dataset["text"], val_dataset["label"]
+test_list_text, test_list_labels = test_dataset["text"], test_dataset["label"]
 
 """
 ############################################################################################################
