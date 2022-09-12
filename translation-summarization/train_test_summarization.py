@@ -168,8 +168,8 @@ It will take care of training and validation.
 trainer = transformers.Trainer(
     model=model,
     args=training_arguments,
-    train_dataset=sequence_classification_train_dataset,
-    eval_dataset=sequence_classification_val_dataset,
+    train_dataset=summarization_train_dataset,
+    eval_dataset=summarization_val_dataset,
     compute_metrics=compute_metrics,
 )
 
@@ -181,4 +181,4 @@ Evaluate the model on the test set.
 ############################################################################################################
 """
 
-trainer.evaluate(sequence_classification_test_dataset)
+trainer.evaluate(summarization_test_dataset)
