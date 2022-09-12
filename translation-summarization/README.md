@@ -16,14 +16,14 @@ You can use the following command to train a text summarization model on the [xs
 
 ```python
 python train_test_summarization.py \
-    --MODEL_TAG distilbert-base-cased \
+    --MODEL_TAG facebook/bart-base \
     --BATCH_SIZE 32 \
     --EPOCHS 10 \
     --CHECKPOINT_DIR checkpoints \
     --LOG_DIR logs \
     --LOGGING_STEPS 100 \
     --MAX_INPUT_LENGTH 1024 \
-    --MAX_OUTPUT_LENGTH 63 \
+    --MAX_OUTPUT_LENGTH 32 \
     --LEARNING_RATE 5e-5 \
     --DATALOADER_NUM_WORKERS 4 \
     --USE_CUDA \
