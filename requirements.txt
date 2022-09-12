@@ -3,3 +3,6 @@ datasets
 torch
 sklearn
 datasets
+
+# summarization task
+rouge_score

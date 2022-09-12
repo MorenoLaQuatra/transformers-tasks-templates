@@ -4,6 +4,7 @@ import argparse
 import sklearn
 import torch
 import transformers
+import datasets
 
 from Dataset import Dataset
 from parsing_arguments import parse_arguments
@@ -60,7 +61,7 @@ summarization_train_dataset = Dataset(
     model_tag = args.MODEL_TAG,
     max_input_length = args.MAX_INPUT_LENGTH,
     max_output_length = args.MAX_OUTPUT_LENGTH,
-    padding = args.PADDING,
+    padding = "max_length",
     truncation = True,
 )
 
@@ -70,7 +71,7 @@ summarization_val_dataset = Dataset(
     model_tag = args.MODEL_TAG,
     max_input_length = args.MAX_INPUT_LENGTH,
     max_output_length = args.MAX_OUTPUT_LENGTH,
-    padding = args.PADDING,
+    padding = "max_length",
     truncation = True,
 )
 
@@ -80,7 +81,7 @@ summarization_test_dataset = Dataset(
     model_tag = args.MODEL_TAG,
     max_input_length = args.MAX_INPUT_LENGTH,
     max_output_length = args.MAX_OUTPUT_LENGTH,
-    padding = args.PADDING,
+    padding = "max_length",
     truncation = True,
 )
 
@@ -125,7 +126,7 @@ The function takes as input a dictionary with the predictions and the labels and
 """
 
 
-rouge = load_metric("rouge")
+rouge = datasets.load_metric("rouge")
 
 def compute_metrics(pred):
     labels_ids = pred.label_ids
