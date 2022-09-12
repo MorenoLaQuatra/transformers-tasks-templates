@@ -50,7 +50,7 @@ class Dataset(torch.utils.data.Dataset):
             return_tensors="pt",
         )
 
-        with tokenizer.as_target_tokenizer():
+        with self.tokenizer.as_target_tokenizer():
             output = self.tokenizer(
                 self.target_text[idx],
                 max_length=self.max_output_length,
