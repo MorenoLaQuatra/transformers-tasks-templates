@@ -32,7 +32,6 @@ class Dataset(torch.utils.data.Dataset):
         self.max_input_length = max_input_length
         self.max_output_length = max_output_length
         self.tokenizer = tokenizer
-        self.model_tag = model_tag
         self.padding = padding
         self.truncation = truncation
 

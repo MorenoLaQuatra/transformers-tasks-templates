@@ -28,8 +28,8 @@ class Dataset(torch.utils.data.Dataset):
     ):
 
         self.texts = texts
+        self.tokenizer = tokenizer
         self.max_length = max_length
-        self.model_tag = model_tag
         self.truncation = truncation
         self.padding = padding
         self.start_sequence = start_sequence
