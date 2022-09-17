@@ -64,7 +64,7 @@ tokenizer = transformers.AutoTokenizer.from_pretrained(
     pad_token='[PAD]'
 )
 
-data_collator = DataCollatorForLanguageModeling(tokenizer, mlm=False)
+data_collator = transformers.DataCollatorForLanguageModeling(tokenizer, mlm=False)
 
 """
 ############################################################################################################
