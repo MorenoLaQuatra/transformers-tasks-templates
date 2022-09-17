@@ -179,3 +179,13 @@ Evaluate the model on the test set.
 """
 
 trainer.evaluate(sequence_classification_test_dataset)
+
+"""
+############################################################################################################
+If the PUSH_TO_HUB argument is True, the model is pushed to the Hugging Face Hub.
+The model is pushed to the user's namespace using the HUB_MODEL_NAME argument.
+############################################################################################################
+"""
+
+if args.PUSH_TO_HUB:
+    trainer.push_to_hub(args.HUB_MODEL_NAME)

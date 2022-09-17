@@ -109,5 +109,19 @@ def parse_arguments():
         help="The path to the dataset file.",
     )
 
+    parser.add_argument(
+        "--PUSH_TO_HUB",
+        default=False,
+        action="store_true",
+        help="Whether to push the model to the Hugging Face Hub after training.",
+    )
+
+    parser.add_argument(
+        "--HUB_MODEL_NAME",
+        type=str,
+        default=None,
+        help="The name of the model to be pushed to the Hugging Face Hub.",
+    )
+
     args = parser.parse_args()
     return args
