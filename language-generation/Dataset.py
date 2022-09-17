@@ -23,8 +23,6 @@ class Dataset(torch.utils.data.Dataset):
         max_length: int = 1024,
         padding: str = "max_length",
         truncation: bool = True,
-        start_sequence: str = "<START>",
-        end_sequence: str = "<END>",
     ):
 
         self.texts = texts
@@ -42,7 +40,7 @@ class Dataset(torch.utils.data.Dataset):
         :return: A dictionary containing the tokenized text (with attention mask) and the label.
         """
         item = self.tokenizer(
-            f"{self.start_sequence} {self.texts[idx]} {self.end_sequence}",
+            f"{self.tokenizer.bos_id} {self.texts[idx]} {self.tokenizer.eos_id}",
             max_length=self.max_length,
             padding=self.padding,
             truncation=self.truncation,

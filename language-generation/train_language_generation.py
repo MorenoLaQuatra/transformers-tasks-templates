@@ -49,21 +49,22 @@ val_sources, test_sources = train_test_split(test_sources, test_size=0.5, random
 """
 ############################################################################################################
 Here you need to define the model and the tokenizer you want to use.
+We also define the data collator.
 ############################################################################################################
 """
 model = transformers.AutoModelForCausalLM.from_pretrained(
     args.MODEL_TAG,
 )
 
+# Setting special tokens ids for the tokenizer.
 tokenizer = transformers.AutoTokenizer.from_pretrained(
     args.MODEL_TAG,
+    bos_token='[START]', 
+    eos_token='[END]', 
+    pad_token='[PAD]'
 )
 
-# The tokenizer may not include the pad token, so we add it if necessary
-if tokenizer.pad_token is None:
-    tokenizer.add_special_tokens({"pad_token": "[PAD]"})
-    model.resize_token_embeddings(len(tokenizer))
-
+data_collator = DataCollatorForLanguageModeling(tokenizer, mlm=False)
 
 """
 ############################################################################################################
@@ -147,6 +148,7 @@ trainer = transformers.Trainer(
     args=training_arguments,
     train_dataset=nlg_train_dataset,
     eval_dataset=nlg_val_dataset,
+    data_collator=data_collator
 )
 
 trainer.train()
