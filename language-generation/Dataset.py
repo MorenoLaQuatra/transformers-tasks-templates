@@ -32,6 +32,7 @@ class Dataset(torch.utils.data.Dataset):
         self.tokenizer = transformers.AutoTokenizer.from_pretrained(model_tag)
         self.model_tag = model_tag
         self.truncation = truncation
+        self.padding = padding
         self.start_sequence = start_sequence
         self.end_sequence = end_sequence
 
