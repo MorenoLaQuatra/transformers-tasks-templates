@@ -46,6 +46,10 @@ python train_test_summarization.py \
     --FP16 
 ```
 
-### Translation Example
 
-**TODO**
+## TODO
+
+- [x] Modify the management of the tokenizer. It is currently loaded in the dataset class. It should be loaded in the `train_test.py` script.
+- [ ] Translation example
+- [ ] Add a demo notebook/script to run inference on the trained model.
+- [ ] Add parameters to fine-tune the model on a custom dataset (e.g., csv file).

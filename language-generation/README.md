@@ -60,6 +60,6 @@ It is worth noting that at each evaluation step, the loss is used to select the 
 
 ## TODO
 
-- [ ] Modify the management of the tokenizer. It is currently loaded in the dataset class. It should be loaded in the `train_test.py` script.
-- [ ] Add a demo script to generate text from a trained model.
+- [x] Modify the management of the tokenizer. It is currently loaded in the dataset class. It should be loaded in the `train_test.py` script.
+- [ ] Add a demo notebook/script to generate text from a trained model.
 - [ ] Add parameters to fine-tune the model on a custom dataset (e.g., csv file).

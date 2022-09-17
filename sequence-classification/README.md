@@ -76,3 +76,9 @@ python train_test_reg.py \
     --SAVE_TOTAL_LIMIT 2 \
     --FP16 
 ```
+
+## TODO
+
+- [x] Modify the management of the tokenizer. It is currently loaded in the dataset class. It should be loaded in the `train_test.py` script.
+- [ ] Add a demo notebook/script to run inference on the trained model.
+- [ ] Add parameters to fine-tune the model on a custom dataset (e.g., csv file).

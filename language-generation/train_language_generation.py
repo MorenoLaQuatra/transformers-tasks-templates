@@ -64,6 +64,8 @@ tokenizer = transformers.AutoTokenizer.from_pretrained(
     pad_token='[PAD]'
 )
 
+model.resize_token_embeddings(len(tokenizer))
+
 data_collator = transformers.DataCollatorForLanguageModeling(tokenizer, mlm=False)
 
 """
