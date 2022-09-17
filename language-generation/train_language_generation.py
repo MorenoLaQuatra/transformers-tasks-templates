@@ -133,7 +133,7 @@ training_arguments = transformers.TrainingArguments(
     no_cuda=not (args.USE_CUDA),
     fp16=args.FP16,
     gradient_checkpointing=args.GRADIENT_CHECKPOINTING,
-    push_to_hub_model_id=args.HUB_MODEL_ID,
+    hub_model_id=args.HUB_MODEL_ID,
     push_to_hub=args.PUSH_TO_HUB,
 )
 

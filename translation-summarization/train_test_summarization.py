@@ -138,7 +138,7 @@ training_arguments = transformers.TrainingArguments(
     fp16=args.FP16,
     metric_for_best_model="R2-F",
     greater_is_better=True,
-    push_to_hub_model_id=args.HUB_MODEL_ID,
+    hub_model_id=args.HUB_MODEL_ID,
     push_to_hub=args.PUSH_TO_HUB,
 )
 
