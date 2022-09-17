@@ -28,10 +28,8 @@ class Dataset(torch.utils.data.Dataset):
         self.texts = texts
         self.tokenizer = tokenizer
         self.max_length = max_length
-        self.truncation = truncation
         self.padding = padding
-        self.start_sequence = start_sequence
-        self.end_sequence = end_sequence
+        self.truncation = truncation
 
     def __getitem__(self, idx):
         """
