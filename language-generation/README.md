@@ -41,7 +41,7 @@ val_sources, test_sources = train_test_split(test_sources, test_size=0.5, random
 You can use the following command to fine-tune the classification model on the [demelin/understanding_fables](https://huggingface.co/datasets/demelin/understanding_fables) dataset:
 
 ```python
-python train_language_genration.py \
+python train_language_generation.py \
     --MODEL_TAG distilgpt2 \
     --BATCH_SIZE 16 \
     --EPOCHS 5 \

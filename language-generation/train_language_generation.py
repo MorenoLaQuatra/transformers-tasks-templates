@@ -56,6 +56,7 @@ nlg_train_dataset = Dataset(
     texts = train_sources,
     model_tag = args.MODEL_TAG,
     max_length = args.MAX_LENGTH,
+    padding="max_length",
     truncation = True,
 )
 
@@ -63,6 +64,7 @@ nlg_val_dataset = Dataset(
     texts = val_sources,
     model_tag = args.MODEL_TAG,
     max_length = args.MAX_LENGTH,
+    padding="max_length",
     truncation = True,
 )
 
@@ -70,6 +72,7 @@ nlg_test_dataset = Dataset(
     texts = test_sources,
     model_tag = args.MODEL_TAG,
     max_length = args.MAX_LENGTH,
+    padding="max_length",
     truncation = True,
 )
 

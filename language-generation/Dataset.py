@@ -21,6 +21,7 @@ class Dataset(torch.utils.data.Dataset):
         texts: List[str],
         model_tag: str,
         max_length: int = 1024,
+        padding: str = "max_length",
         truncation: bool = True,
         start_sequence: str = "<START>",
         end_sequence: str = "<END>",
@@ -43,6 +44,7 @@ class Dataset(torch.utils.data.Dataset):
         item = self.tokenizer(
             f"{self.start_sequence} {self.texts[idx]} {self.end_sequence}",
             max_length=self.max_length,
+            padding=self.padding,
             truncation=self.truncation,
             return_tensors="pt",
         )
