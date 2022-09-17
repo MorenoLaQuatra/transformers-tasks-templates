@@ -57,9 +57,3 @@ python train_language_generation.py \
 ```
 
 It is worth noting that at each evaluation step, the loss is used to select the best checkpoint. In contrast to accuracy, the best checkpoint is selected by **minimizing** the loss.
-
-## TODO
-
-- [x] Modify the management of the tokenizer. It is currently loaded in the dataset class. It should be loaded in the `train_test.py` script.
-- [ ] Add a demo notebook/script to generate text from a trained model.
-- [ ] Add parameters to fine-tune the model on a custom dataset (e.g., csv file).
