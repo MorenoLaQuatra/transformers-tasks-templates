@@ -201,4 +201,4 @@ The model is pushed to the user's namespace using the HUB_MODEL_NAME argument.
 
 if args.PUSH_TO_HUB:
     trainer.push_to_hub()
-    tokenizer.push_to_hub(model_id=args.HUB_MODEL_ID)
+    tokenizer.push_to_hub(repo_id=args.HUB_MODEL_ID)
