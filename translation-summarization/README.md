@@ -10,6 +10,21 @@ Hereafter is a description of each file:
 - `train_test_[TASKNAME].py`: it contains the script to train and test the model. It uses the Trainer class provided by the HuggingFace transformers library.
 - `parsing_arguments.py`: it contains the class for parsing the arguments used to train and test the model. Feel free to add new arguments if you need to. You should also change the default values in `train_test_[TASKNAME].py` to match the new arguments. 
 
+---
+
+The example contains a script to train a sequence-to-sequence model on a toy dataset. If you want to train the model on a different dataset, you need to update the `train_test_[TASKNAME].py` script. In particular, you need to fill the following variables:
+
+```python
+train_sources = [...]  # replace with your list of source texts
+train_targets = [...]  # replace with your list of target texts (e.g., summary or translation)
+
+val_sources = [...]  # replace with your list of source texts
+val_targets = [...]  # replace with your list of target texts (e.g., summary or translation)
+
+test_sources = [...]  # replace with your list of source texts
+test_targets = [...]  # replace with your list of target texts (e.g., summary or translation)
+```
+
 **Example command for training the summarization model**
 
 You can use the following command to train a text summarization model on the [xsum](https://huggingface.co/datasets/xsum) dataset:
@@ -32,3 +47,5 @@ python train_test_summarization.py \
 ```
 
 ### Translation Example
+
+**TODO**

@@ -8,6 +8,23 @@ Hereafter is a description of each file:
 - `train_test_clf.py`: it contains the script to train and test the classification model. It uses the Trainer class provided by the HuggingFace transformers library.
 - `parsing_arguments.py`: it contains the class for parsing the arguments used to train and test the model. Feel free to add new arguments if you need to. You should also change the default values in `train_test.py` to match the new arguments. 
 
+---
+
+The example contains a script to train a text generation model on a toy dataset. If you want to train the model on a different dataset, you need to update the `train_test.py` script. In particular, you need to fill the following variables:
+
+```python
+train_list_text = [...]  # replace with your list of texts
+train_list_labels = [...]  # replace with your list of labels
+
+val_list_text = [...]  # replace with your list of texts
+val_list_labels = [...]  # replace with your list of labels
+
+test_list_text = [...]  # replace with your list of texts
+test_list_labels = [...]  # replace with your list of labels
+```
+
+and remove the lines that instantiate the toy dataset.
+
 **Example command for training the classification model**
 
 You can use the following command to train the classification model on the [emotion dataset](https://huggingface.co/datasets/emotion):
@@ -27,6 +44,8 @@ python train_test_clf.py \
     --SAVE_TOTAL_LIMIT 2 \
     --FP16 
 ```
+
+---
 
 ### Regression example
 
