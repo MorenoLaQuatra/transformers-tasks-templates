@@ -86,7 +86,7 @@ model = transformers.AutoModelForSequenceClassification.from_pretrained(
 tokenizer = transformers.AutoTokenizer.from_pretrained(
     args.MODEL_TAG,
 )
-tokenizer.save_pretrained(args.CHECKPOINT_DIR + "/tokenizer/")
+tokenizer.save_pretrained(args.TOKENIZER_DIR)
 
 """
 ############################################################################################################

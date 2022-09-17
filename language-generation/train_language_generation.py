@@ -72,7 +72,7 @@ tokenizer = transformers.AutoTokenizer.from_pretrained(
     args.MODEL_TAG, bos_token="[START]", eos_token="[END]", pad_token="[PAD]"
 )
 
-tokenizer.save_pretrained(args.CHECKPOINT_DIR + "/tokenizer/")
+tokenizer.save_pretrained(args.TOKENIZER_DIR)
 
 model.resize_token_embeddings(len(tokenizer))
 

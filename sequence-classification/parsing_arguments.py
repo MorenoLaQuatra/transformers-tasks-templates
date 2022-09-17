@@ -43,6 +43,13 @@ def parse_arguments():
     )
 
     parser.add_argument(
+        "--TOKENIZER_DIR",
+        type=str,
+        default="tokenizer",
+        help="The directory where the tokenizer will be saved.",
+    )
+
+    parser.add_argument(
         "--LOG_DIR",
         type=str,
         default="logs",
