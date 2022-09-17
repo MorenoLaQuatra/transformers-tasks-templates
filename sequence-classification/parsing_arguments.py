@@ -110,10 +110,10 @@ def parse_arguments():
     )
 
     parser.add_argument(
-        "--HUB_MODEL_NAME",
+        "--HUB_MODEL_ID",
         type=str,
         default=None,
-        help="The name of the model to be pushed to the Hugging Face Hub.",
+        help="The ID of the model to be pushed to the Hugging Face Hub.",
     )
 
     args = parser.parse_args()

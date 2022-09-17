@@ -147,6 +147,8 @@ training_arguments = transformers.TrainingArguments(
     fp16=args.FP16,
     metric_for_best_model="mae",
     greater_is_better=False,
+    push_to_hub_model_id=args.HUB_MODEL_ID,
+    push_to_hub=args.PUSH_TO_HUB,
 )
 
 """
@@ -198,4 +200,4 @@ The model is pushed to the user's namespace using the HUB_MODEL_NAME argument.
 """
 
 if args.PUSH_TO_HUB:
-    trainer.push_to_hub(args.HUB_MODEL_NAME)
+    trainer.push_to_hub()
