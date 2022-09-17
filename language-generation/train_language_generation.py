@@ -45,6 +45,26 @@ train_sources, test_sources = train_test_split(sources, test_size=0.2, random_st
 val_sources, test_sources = train_test_split(test_sources, test_size=0.5, random_state=42)
 
 
+
+"""
+############################################################################################################
+Here you need to define the model and the tokenizer you want to use.
+############################################################################################################
+"""
+model = transformers.AutoModelForCausalLM.from_pretrained(
+    args.MODEL_TAG,
+)
+
+tokenizer = transformers.AutoTokenizer.from_pretrained(
+    args.MODEL_TAG,
+)
+
+# The tokenizer may not include the pad token, so we add it if necessary
+if tokenizer.pad_token is None:
+    tokenizer.add_special_tokens({"pad_token": "[PAD]"})
+    model.resize_token_embeddings(len(tokenizer))
+
+
 """
 ############################################################################################################
 Instantiating the dataset objects for each split.
@@ -54,7 +74,7 @@ Instantiating the dataset objects for each split.
 
 nlg_train_dataset = Dataset(
     texts = train_sources,
-    model_tag = args.MODEL_TAG,
+    tokenizer = tokenizer,
     max_length = args.MAX_LENGTH,
     padding="max_length",
     truncation = True,
@@ -62,7 +82,7 @@ nlg_train_dataset = Dataset(
 
 nlg_val_dataset = Dataset(
     texts = val_sources,
-    model_tag = args.MODEL_TAG,
+    tokenizer = tokenizer,
     max_length = args.MAX_LENGTH,
     padding="max_length",
     truncation = True,
@@ -70,16 +90,10 @@ nlg_val_dataset = Dataset(
 
 nlg_test_dataset = Dataset(
     texts = test_sources,
-    model_tag = args.MODEL_TAG,
+    tokenizer = tokenizer,
     max_length = args.MAX_LENGTH,
     padding="max_length",
     truncation = True,
-)
-
-
-""" Instantiate the model """
-model = transformers.AutoModelForCausalLM.from_pretrained(
-    args.MODEL_TAG,
 )
 
 """

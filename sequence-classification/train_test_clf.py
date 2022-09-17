@@ -48,6 +48,20 @@ test_list_labels = dataset["test"]["label"]
 
 """
 ############################################################################################################
+Here you need to define the model and the tokenizer you want to use.
+############################################################################################################
+"""
+model = transformers.AutoModelForSequenceClassification.from_pretrained(
+    args.MODEL_TAG,
+    num_labels=len(set(train_list_labels)),
+)
+
+tokenizer = transformers.AutoTokenizer.from_pretrained(
+    args.MODEL_TAG,
+)
+
+"""
+############################################################################################################
 Instantiating the dataset objects for each split.
 !!! The dataloaders are created inside the Trainer object !!!
 ############################################################################################################
@@ -55,7 +69,7 @@ Instantiating the dataset objects for each split.
 sequence_classification_train_dataset = Dataset(
     texts=train_list_text,
     labels=train_list_labels,
-    model_tag=args.MODEL_TAG,
+    tokenizer=tokenizer,
     max_length=args.MAX_LENGTH,
     padding="max_length",
     truncation=True,
@@ -64,7 +78,7 @@ sequence_classification_train_dataset = Dataset(
 sequence_classification_val_dataset = Dataset(
     texts=val_list_text,
     labels=val_list_labels,
-    model_tag=args.MODEL_TAG,
+    tokenizer=tokenizer,
     max_length=args.MAX_LENGTH,
     padding="max_length",
     truncation=True,
@@ -73,18 +87,13 @@ sequence_classification_val_dataset = Dataset(
 sequence_classification_test_dataset = Dataset(
     texts=test_list_text,
     labels=test_list_labels,
-    model_tag=args.MODEL_TAG,
+    tokenizer=tokenizer,
     max_length=args.MAX_LENGTH,
     padding="max_length",
     truncation=True,
 )
 
 
-""" Instantiate the model """
-model = transformers.AutoModelForSequenceClassification.from_pretrained(
-    args.MODEL_TAG,
-    num_labels=len(set(train_list_labels)),
-)
 
 """
 ############################################################################################################

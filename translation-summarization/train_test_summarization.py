@@ -51,6 +51,20 @@ test_targets = dataset["test"]["summary"]
 
 """
 ############################################################################################################
+Here you need to define the model and the tokenizer you want to use.
+############################################################################################################
+"""
+model = transformers.AutoModelForSeq2SeqLM.from_pretrained(
+    args.MODEL_TAG,
+)
+
+tokenizer = transformers.AutoTokenizer.from_pretrained(
+    args.MODEL_TAG,
+)
+
+
+"""
+############################################################################################################
 Instantiating the dataset objects for each split.
 !!! The dataloaders are created inside the Trainer object !!!
 ############################################################################################################
@@ -59,7 +73,7 @@ Instantiating the dataset objects for each split.
 summarization_train_dataset = Dataset(
     source_text = train_sources,
     target_text = train_targets,
-    model_tag = args.MODEL_TAG,
+    tokenizer = tokenizer,
     max_input_length = args.MAX_INPUT_LENGTH,
     max_output_length = args.MAX_OUTPUT_LENGTH,
     padding = "max_length",
@@ -69,7 +83,7 @@ summarization_train_dataset = Dataset(
 summarization_val_dataset = Dataset(
     source_text = val_sources,
     target_text = val_targets,
-    model_tag = args.MODEL_TAG,
+    tokenizer = tokenizer,
     max_input_length = args.MAX_INPUT_LENGTH,
     max_output_length = args.MAX_OUTPUT_LENGTH,
     padding = "max_length",
@@ -79,17 +93,11 @@ summarization_val_dataset = Dataset(
 summarization_test_dataset = Dataset(
     source_text = test_sources,
     target_text = test_targets,
-    model_tag = args.MODEL_TAG,
+    tokenizer = tokenizer,
     max_input_length = args.MAX_INPUT_LENGTH,
     max_output_length = args.MAX_OUTPUT_LENGTH,
     padding = "max_length",
     truncation = True,
-)
-
-
-""" Instantiate the model """
-model = transformers.AutoModelForSeq2SeqLM.from_pretrained(
-    args.MODEL_TAG,
 )
 
 """

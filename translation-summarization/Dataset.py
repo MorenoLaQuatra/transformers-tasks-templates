@@ -20,7 +20,7 @@ class Dataset(torch.utils.data.Dataset):
         self,
         source_text: List[str],
         target_text: List[str],
-        model_tag: str,
+        tokenizer,
         max_input_length: int = 1024,
         max_output_length: int = 128,
         padding: str = "max_length",
@@ -31,7 +31,7 @@ class Dataset(torch.utils.data.Dataset):
         self.target_text = target_text
         self.max_input_length = max_input_length
         self.max_output_length = max_output_length
-        self.tokenizer = transformers.AutoTokenizer.from_pretrained(model_tag)
+        self.tokenizer = tokenizer
         self.model_tag = model_tag
         self.padding = padding
         self.truncation = truncation
