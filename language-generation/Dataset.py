@@ -30,8 +30,8 @@ class Dataset(torch.utils.data.Dataset):
         self.texts = texts
         self.max_length = max_length
         self.tokenizer = transformers.AutoTokenizer.from_pretrained(model_tag)
-        if tokenizer.pad_token is None:
-            tokenizer.add_special_tokens({'pad_token': '[PAD]'})
+        if self.tokenizer.pad_token is None:
+            self.tokenizer.add_special_tokens({'pad_token': '[PAD]'})
         self.model_tag = model_tag
         self.truncation = truncation
         self.padding = padding
