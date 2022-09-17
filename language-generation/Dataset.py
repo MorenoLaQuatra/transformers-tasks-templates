@@ -38,7 +38,7 @@ class Dataset(torch.utils.data.Dataset):
         :return: A dictionary containing the tokenized text (with attention mask) and the label.
         """
         item = self.tokenizer(
-            f"{self.tokenizer.bos_id} {self.texts[idx]} {self.tokenizer.eos_id}",
+            f"{self.tokenizer.bos_token_id} {self.texts[idx]} {self.tokenizer.eos_token_id}",
             max_length=self.max_length,
             padding=self.padding,
             truncation=self.truncation,
