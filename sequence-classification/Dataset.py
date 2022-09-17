@@ -9,8 +9,7 @@ class Dataset(torch.utils.data.Dataset):
     This class is inteded for sequence classification tasks.
     :param texts: List of texts to be tokenized.
     :param labels: List of labels for each text.
-    :param tokenizer: The identifier for the tokenizer to be used.
-                    It can be an identifier from the transformers library or a path to a local tokenizer.
+    :param tokenizer: The tokenizer to be used for tokenizing the texts. It can be an instance of the transformers AutoTokenizer class or a custom tokenizer.
     :param max_length: The maximum length of the tokenized text.
     :param padding: The padding strategy to be used. Available options are available in the transformers library.
     :param truncation: Whether to truncate the text or not.

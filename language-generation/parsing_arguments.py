@@ -102,5 +102,12 @@ def parse_arguments():
         help="Enable gradient checkpointing",
     )
 
+    parser.add_argument(
+        "--DATASET_FILE",
+        type=str,
+        default=None,
+        help="The path to the dataset file.",
+    )
+
     args = parser.parse_args()
     return args

@@ -6,10 +6,11 @@ import torch
 import transformers
 import evaluate
 from sklearn.model_selection import train_test_split
+from datasets import load_dataset
+import pandas as pd
 
 from Dataset import Dataset
 from parsing_arguments import parse_arguments
-
 
 
 # it removes the warning for the number of threads used for data loading
@@ -31,19 +32,29 @@ val_sources = [...]  # replace with your list of texts
 test_sources = [...]  # replace with your list of texts
 """
 
-"""
-Example using a dataset from datasets library.
-"""
-from datasets import load_dataset
+if args.DATASET_FILE is not None:
+    # If the DATASET_FILE argument is not None, the dataset is loaded from the file.
+    dataset = pd.read_csv(args.DATASET_FILE, sep="\t")
+    sources = dataset["text"].tolist()
+    train_sources, test_sources = train_test_split(
+        sources, test_size=0.2, random_state=42
+    )
+    val_sources, test_sources = train_test_split(
+        test_sources, test_size=0.5, random_state=42
+    )
+else:
+    # Example using a dataset from datasets library.
+    dataset = load_dataset("demelin/understanding_fables")
 
-dataset = load_dataset("demelin/understanding_fables")
+    sources = dataset["test"]["story"]
+    sources = [s.replace("What is the moral of this story?", "") for s in sources]
 
-sources = dataset["test"]["story"]
-sources = [s.replace("What is the moral of this story?", "") for s in sources]
-
-train_sources, test_sources = train_test_split(sources, test_size=0.2, random_state=42)
-val_sources, test_sources = train_test_split(test_sources, test_size=0.5, random_state=42)
-
+    train_sources, test_sources = train_test_split(
+        sources, test_size=0.2, random_state=42
+    )
+    val_sources, test_sources = train_test_split(
+        test_sources, test_size=0.5, random_state=42
+    )
 
 
 """
@@ -58,11 +69,10 @@ model = transformers.AutoModelForCausalLM.from_pretrained(
 
 # Setting special tokens ids for the tokenizer.
 tokenizer = transformers.AutoTokenizer.from_pretrained(
-    args.MODEL_TAG,
-    bos_token='[START]', 
-    eos_token='[END]', 
-    pad_token='[PAD]'
+    args.MODEL_TAG, bos_token="[START]", eos_token="[END]", pad_token="[PAD]"
 )
+
+tokenizer.save_pretrained(args.CHECKPOINT_DIR + "/tokenizer/")
 
 model.resize_token_embeddings(len(tokenizer))
 
@@ -76,27 +86,27 @@ Instantiating the dataset objects for each split.
 """
 
 nlg_train_dataset = Dataset(
-    texts = train_sources,
-    tokenizer = tokenizer,
-    max_length = args.MAX_LENGTH,
+    texts=train_sources,
+    tokenizer=tokenizer,
+    max_length=args.MAX_LENGTH,
     padding="max_length",
-    truncation = True,
+    truncation=True,
 )
 
 nlg_val_dataset = Dataset(
-    texts = val_sources,
-    tokenizer = tokenizer,
-    max_length = args.MAX_LENGTH,
+    texts=val_sources,
+    tokenizer=tokenizer,
+    max_length=args.MAX_LENGTH,
     padding="max_length",
-    truncation = True,
+    truncation=True,
 )
 
 nlg_test_dataset = Dataset(
-    texts = test_sources,
-    tokenizer = tokenizer,
-    max_length = args.MAX_LENGTH,
+    texts=test_sources,
+    tokenizer=tokenizer,
+    max_length=args.MAX_LENGTH,
     padding="max_length",
-    truncation = True,
+    truncation=True,
 )
 
 """
@@ -137,7 +147,6 @@ In this case, we use the loss to evaluate the model. It is not needed to define 
 """
 
 
-
 """
 ############################################################################################################
 Instantiating the Trainer object.
@@ -150,7 +159,7 @@ trainer = transformers.Trainer(
     args=training_arguments,
     train_dataset=nlg_train_dataset,
     eval_dataset=nlg_val_dataset,
-    data_collator=data_collator
+    data_collator=data_collator,
 )
 
 trainer.train()

@@ -25,6 +25,8 @@ test_sources = [...]  # replace with your list of source texts
 test_targets = [...]  # replace with your list of target texts (e.g., summary or translation)
 ```
 
+---
+
 **Example command for training the summarization model**
 
 You can use the following command to train a text summarization model on the [xsum](https://huggingface.co/datasets/xsum) dataset:

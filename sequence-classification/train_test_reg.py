@@ -5,6 +5,8 @@ import sklearn
 from sklearn.model_selection import train_test_split
 import torch
 import transformers
+from datasets import load_dataset
+import pandas as pd
 
 from Dataset import Dataset
 from parsing_arguments import parse_arguments
@@ -33,30 +35,43 @@ test_list_text = [...]  # replace with your list of texts
 test_list_labels = [...]  # replace with your list of labels
 """
 
-"""
-Example using a dataset from datasets library.
-"""
-from datasets import load_dataset
+if args.DATASET_FILE is not None:
+    # If the DATASET_FILE argument is not None, the dataset is loaded from the file.
+    dataset = pd.read_csv(args.DATASET_FILE, sep="\t")
+    list_text = dataset["source_text"].tolist()
+    list_labels = dataset["label"].tolist()
+    (
+        train_list_text,
+        test_list_text,
+        train_list_labels,
+        test_list_labels,
+    ) = train_test_split(list_text, list_labels, test_size=0.2, random_state=42)
+    val_list_text, test_list_text, val_list_labels, test_list_labels = train_test_split(
+        test_list_text, test_list_labels, test_size=0.5, random_state=42
+    )
+else:
+    # Example using a dataset from datasets library.
+    dataset = load_dataset("ucberkeley-dlab/measuring-hate-speech")["train"].to_pandas()
 
-dataset = load_dataset("ucberkeley-dlab/measuring-hate-speech")["train"].to_pandas()
+    train_dataset, test_dataset = train_test_split(
+        dataset, test_size=0.2, random_state=42
+    )
+    val_dataset, test_dataset = train_test_split(
+        test_dataset, test_size=0.5, random_state=42
+    )
 
-train_dataset, test_dataset = train_test_split(dataset, test_size=0.2, random_state=42)
-val_dataset, test_dataset = train_test_split(
-    test_dataset, test_size=0.5, random_state=42
-)
-
-train_list_text, train_list_labels = (
-    train_dataset["text"].tolist(),
-    train_dataset["hate_speech_score"].tolist(),
-)
-val_list_text, val_list_labels = (
-    val_dataset["text"].tolist(),
-    val_dataset["hate_speech_score"].tolist(),
-)
-test_list_text, test_list_labels = (
-    test_dataset["text"].tolist(),
-    test_dataset["hate_speech_score"].tolist(),
-)
+    train_list_text, train_list_labels = (
+        train_dataset["text"].tolist(),
+        train_dataset["hate_speech_score"].tolist(),
+    )
+    val_list_text, val_list_labels = (
+        val_dataset["text"].tolist(),
+        val_dataset["hate_speech_score"].tolist(),
+    )
+    test_list_text, test_list_labels = (
+        test_dataset["text"].tolist(),
+        test_dataset["hate_speech_score"].tolist(),
+    )
 
 """
 ############################################################################################################
@@ -71,6 +86,7 @@ model = transformers.AutoModelForSequenceClassification.from_pretrained(
 tokenizer = transformers.AutoTokenizer.from_pretrained(
     args.MODEL_TAG,
 )
+tokenizer.save_pretrained(args.CHECKPOINT_DIR + "/tokenizer/")
 
 """
 ############################################################################################################
@@ -164,6 +180,7 @@ trainer = transformers.Trainer(
 )
 
 trainer.train()
+trainer.save_model(args.CHECKPOINT_DIR + "/best_model/")
 
 """
 ############################################################################################################

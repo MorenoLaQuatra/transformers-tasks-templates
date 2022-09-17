@@ -7,11 +7,11 @@ import transformers
 class Dataset(torch.utils.data.Dataset):
     """
     This class is inteded for sequence classification tasks.
-    :param texts: List of texts to be tokenized.
-    :param labels: List of labels for each text.
-    :param tokenizer: The identifier for the tokenizer to be used.
-                    It can be an identifier from the transformers library or a path to a local tokenizer.
-    :param max_length: The maximum length of the tokenized text.
+    :param source_text: List of source text that is used as input to the model.
+    :param target_text: List of target text that is used as expected output from the model.
+    :param tokenizer: The tokenizer to be used for tokenizing the texts. It can be an instance of the transformers AutoTokenizer class or a custom tokenizer.
+    :param max_input_length: The maximum length of the tokenized input text.
+    :param max_output_length: The maximum length of the tokenized output text.
     :param padding: The padding strategy to be used. Available options are available in the transformers library.
     :param truncation: Whether to truncate the text or not.
     """
@@ -37,9 +37,9 @@ class Dataset(torch.utils.data.Dataset):
 
     def __getitem__(self, idx):
         """
-        This function is called to get the tokenized text and the label for a given index.
+        This function is called to get the tokenized source and target text for a given index.
         :param idx: The index of the text and label to be returned.
-        :return: A dictionary containing the tokenized text (with attention mask) and the label.
+        :return: A dictionary containing the tokenized source (`input_ids`) with attention mask (`attention_mask`) and the tokenized target (`labels`).
         """
         input = self.tokenizer(
             self.source_text[idx],

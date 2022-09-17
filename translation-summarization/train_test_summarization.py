@@ -6,6 +6,8 @@ import torch
 import transformers
 import datasets
 import evaluate
+from datasets import load_dataset
+import pandas as pd
 
 from Dataset import Dataset
 from parsing_arguments import parse_arguments
@@ -35,19 +37,29 @@ test_sources = [...]  # replace with your list of source texts
 test_targets = [...]  # replace with your list of target texts (e.g., summary or translation)
 """
 
-"""
-Example using a dataset from datasets library.
-"""
-from datasets import load_dataset
 
-dataset = load_dataset("xsum")
+if args.DATASET_FILE is not None:
+    # If the DATASET_FILE argument is not None, the dataset is loaded from the file.
+    dataset = pd.read_csv(args.DATASET_FILE, sep="\t")
+    sources = dataset["source_text"].tolist()
+    targets = dataset["target_text"].tolist()
+    train_sources, test_sources, train_targets, test_targets = train_test_split(
+        sources, targets, test_size=0.2, random_state=42
+    )
+    val_sources, test_sources, val_targets, test_targets = train_test_split(
+        test_sources, test_targets, test_size=0.5, random_state=42
+    )
+else:
+    # Example using a dataset from datasets library.
+    dataset = load_dataset("xsum")
 
-train_sources = dataset["train"]["document"]
-train_targets = dataset["train"]["summary"]
-val_sources = dataset["validation"]["document"]
-val_targets = dataset["validation"]["summary"]
-test_sources = dataset["test"]["document"]
-test_targets = dataset["test"]["summary"]
+    train_sources = dataset["train"]["document"]
+    train_targets = dataset["train"]["summary"]
+    val_sources = dataset["validation"]["document"]
+    val_targets = dataset["validation"]["summary"]
+    test_sources = dataset["test"]["document"]
+    test_targets = dataset["test"]["summary"]
+
 
 """
 ############################################################################################################
@@ -62,6 +74,7 @@ tokenizer = transformers.AutoTokenizer.from_pretrained(
     args.MODEL_TAG,
 )
 
+tokenizer.save_pretrained(args.CHECKPOINT_DIR + "/tokenizer/")
 
 """
 ############################################################################################################
@@ -71,33 +84,33 @@ Instantiating the dataset objects for each split.
 """
 
 summarization_train_dataset = Dataset(
-    source_text = train_sources,
-    target_text = train_targets,
-    tokenizer = tokenizer,
-    max_input_length = args.MAX_INPUT_LENGTH,
-    max_output_length = args.MAX_OUTPUT_LENGTH,
-    padding = "max_length",
-    truncation = True,
+    source_text=train_sources,
+    target_text=train_targets,
+    tokenizer=tokenizer,
+    max_input_length=args.MAX_INPUT_LENGTH,
+    max_output_length=args.MAX_OUTPUT_LENGTH,
+    padding="max_length",
+    truncation=True,
 )
 
 summarization_val_dataset = Dataset(
-    source_text = val_sources,
-    target_text = val_targets,
-    tokenizer = tokenizer,
-    max_input_length = args.MAX_INPUT_LENGTH,
-    max_output_length = args.MAX_OUTPUT_LENGTH,
-    padding = "max_length",
-    truncation = True,
+    source_text=val_sources,
+    target_text=val_targets,
+    tokenizer=tokenizer,
+    max_input_length=args.MAX_INPUT_LENGTH,
+    max_output_length=args.MAX_OUTPUT_LENGTH,
+    padding="max_length",
+    truncation=True,
 )
 
 summarization_test_dataset = Dataset(
-    source_text = test_sources,
-    target_text = test_targets,
-    tokenizer = tokenizer,
-    max_input_length = args.MAX_INPUT_LENGTH,
-    max_output_length = args.MAX_OUTPUT_LENGTH,
-    padding = "max_length",
-    truncation = True,
+    source_text=test_sources,
+    target_text=test_targets,
+    tokenizer=tokenizer,
+    max_input_length=args.MAX_INPUT_LENGTH,
+    max_output_length=args.MAX_OUTPUT_LENGTH,
+    padding="max_length",
+    truncation=True,
 )
 
 """
@@ -137,6 +150,7 @@ The function takes as input a dictionary with the predictions and the labels and
 
 rouge = evaluate.load("rouge")
 
+
 def compute_metrics(pred):
     labels_ids = pred.label_ids
     pred_ids = pred.predictions
@@ -146,25 +160,25 @@ def compute_metrics(pred):
     label_str = tokenizer.batch_decode(labels_ids, skip_special_tokens=True)
 
     rouge_output = rouge.compute(
-        predictions=pred_str, references=label_str, rouge_types=['rouge1', 'rouge2', 'rougeL', 'rougeLsum']
+        predictions=pred_str,
+        references=label_str,
+        rouge_types=["rouge1", "rouge2", "rougeL", "rougeLsum"],
     )
 
     return {
-        "R1-P": round(rouge_output['rouge1'].mid.precision, 4),
-        "R1-R": round(rouge_output['rouge1'].mid.recall, 4),
-        "R1-F": round(rouge_output['rouge1'].mid.fmeasure, 4),
-        "R2-P": round(rouge_output['rouge2'].mid.precision, 4),
-        "R2-R": round(rouge_output['rouge2'].mid.recall, 4),
-        "R2-F": round(rouge_output['rouge2'].mid.fmeasure, 4),
-        "RL-P": round(rouge_output['rougeL'].mid.precision, 4),
-        "RL-R": round(rouge_output['rougeL'].mid.recall, 4),
-        "RL-F": round(rouge_output['rougeL'].mid.fmeasure, 4),
-        "RLsum-P": round(rouge_output['rougeLsum'].mid.precision, 4),
-        "RLsum-R": round(rouge_output['rougeLsum'].mid.recall, 4),
-        "RLsum-F": round(rouge_output['rougeLsum'].mid.fmeasure, 4),
+        "R1-P": round(rouge_output["rouge1"].mid.precision, 4),
+        "R1-R": round(rouge_output["rouge1"].mid.recall, 4),
+        "R1-F": round(rouge_output["rouge1"].mid.fmeasure, 4),
+        "R2-P": round(rouge_output["rouge2"].mid.precision, 4),
+        "R2-R": round(rouge_output["rouge2"].mid.recall, 4),
+        "R2-F": round(rouge_output["rouge2"].mid.fmeasure, 4),
+        "RL-P": round(rouge_output["rougeL"].mid.precision, 4),
+        "RL-R": round(rouge_output["rougeL"].mid.recall, 4),
+        "RL-F": round(rouge_output["rougeL"].mid.fmeasure, 4),
+        "RLsum-P": round(rouge_output["rougeLsum"].mid.precision, 4),
+        "RLsum-R": round(rouge_output["rougeLsum"].mid.recall, 4),
+        "RLsum-F": round(rouge_output["rougeLsum"].mid.fmeasure, 4),
     }
-
-
 
 
 """
@@ -183,6 +197,7 @@ trainer = transformers.Trainer(
 )
 
 trainer.train()
+trainer.save_model(args.CHECKPOINT_DIR + "/best_model/")
 
 """
 ############################################################################################################
