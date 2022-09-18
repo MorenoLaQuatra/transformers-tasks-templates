@@ -30,43 +30,43 @@ Each folder contains a script that can be used to fine-tune specific type of mod
 
 **Text Classification**
     
-    ```tsv
-    text	label
-    I love this movie!	1
-    I hate this movie!	0
-    ```
+```tsv
+text	label
+I love this movie!	1
+I hate this movie!	0
+```
 
 **Text Regression**
 
-    ```tsv
-    text	label
-    I love this movie!	4.5
-    I hate this movie!	0.5
-    ```
+```tsv
+text	label
+I love this movie!	4.5
+I hate this movie!	0.5
+```
 
 **Summarization**
 
-    ```tsv
-    source_text	target_text
-    Very long text containing a lot of information.	Short summary of the text.
-    Very long text containing a lot of information.	Short summary of the text.
-    ```
+```tsv
+source_text	target_text
+Very long text containing a lot of information.	Short summary of the text.
+Very long text containing a lot of information.	Short summary of the text.
+```
 
 **Translation**
 
-    ```tsv
-    source_text	target_text
-    The cat sat on the mat.	Il gatto è seduto sul tappeto.
-    The pen is on the table.	La penna è sul tavolo.
-    ```
+```tsv
+source_text	target_text
+The cat sat on the mat.	Il gatto è seduto sul tappeto.
+The pen is on the table.	La penna è sul tavolo.
+```
 
 **Text Generation**
 
-    ```tsv
-    text
-    Text that can be used to infer the next word.
-    Another text that can be used to infer the next word.
-    ```
+```tsv
+text
+Text that can be used to infer the next word.
+Another text that can be used to infer the next word.
+```
 
 Each folder also the `data` subfolder that contains some examples of tsv files with the correct format.
 

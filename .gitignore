@@ -1,2 +1,6 @@
 sequence-classification/logs/*
 sequence-classification/checkpoints/*
+translation-summarization/logs/*
+translation-summarization/checkpoints/*
+language-generation/logs/*
+language-generation/checkpoints/*

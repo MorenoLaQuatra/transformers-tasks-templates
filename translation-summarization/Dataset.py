@@ -49,14 +49,13 @@ class Dataset(torch.utils.data.Dataset):
             return_tensors="pt",
         )
 
-        with self.tokenizer.as_target_tokenizer():
-            output = self.tokenizer(
-                self.target_text[idx],
-                max_length=self.max_output_length,
-                padding=self.padding,
-                truncation=self.truncation,
-                return_tensors="pt",
-            )
+        output = self.tokenizer(
+            text_target = self.target_text[idx],
+            max_length=self.max_output_length,
+            padding=self.padding,
+            truncation=self.truncation,
+            return_tensors="pt",
+        )
 
         item = {
             "input_ids": input["input_ids"].squeeze(),

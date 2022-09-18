@@ -136,7 +136,7 @@ training_arguments = transformers.TrainingArguments(
     save_total_limit=args.SAVE_TOTAL_LIMIT,
     no_cuda=not (args.USE_CUDA),
     fp16=args.FP16,
-    metric_for_best_model="R2-F",
+    metric_for_best_model="R2",
     greater_is_better=True,
     hub_model_id=args.HUB_MODEL_ID,
     push_to_hub=args.PUSH_TO_HUB,
@@ -154,8 +154,9 @@ rouge = evaluate.load("rouge")
 
 
 def compute_metrics(pred):
+
     labels_ids = pred.label_ids
-    pred_ids = pred.predictions
+    pred_ids = pred.predictions[0]
 
     pred_str = tokenizer.batch_decode(pred_ids, skip_special_tokens=True)
     labels_ids[labels_ids == -100] = tokenizer.pad_token_id
@@ -168,19 +169,19 @@ def compute_metrics(pred):
     )
 
     return {
-        "R1-P": round(rouge_output["rouge1"].mid.precision, 4),
-        "R1-R": round(rouge_output["rouge1"].mid.recall, 4),
-        "R1-F": round(rouge_output["rouge1"].mid.fmeasure, 4),
-        "R2-P": round(rouge_output["rouge2"].mid.precision, 4),
-        "R2-R": round(rouge_output["rouge2"].mid.recall, 4),
-        "R2-F": round(rouge_output["rouge2"].mid.fmeasure, 4),
-        "RL-P": round(rouge_output["rougeL"].mid.precision, 4),
-        "RL-R": round(rouge_output["rougeL"].mid.recall, 4),
-        "RL-F": round(rouge_output["rougeL"].mid.fmeasure, 4),
-        "RLsum-P": round(rouge_output["rougeLsum"].mid.precision, 4),
-        "RLsum-R": round(rouge_output["rougeLsum"].mid.recall, 4),
-        "RLsum-F": round(rouge_output["rougeLsum"].mid.fmeasure, 4),
+        "R1": round(rouge_output["rouge1"], 4),
+        "R2": round(rouge_output["rouge2"], 4),
+        "RL": round(rouge_output["rougeL"], 4),
+        "RLsum": round(rouge_output["rougeLsum"], 4),
     }
+
+def preprocess_logits_for_metrics(logits, labels):
+    """
+    Original Trainer may have a memory leak. 
+    This is a workaround to avoid storing too many tensors that are not needed.
+    """
+    pred_ids = torch.argmax(logits[0], dim=-1)
+    return pred_ids, labels
 
 
 """
@@ -196,6 +197,7 @@ trainer = transformers.Trainer(
     train_dataset=summarization_train_dataset,
     eval_dataset=summarization_val_dataset,
     compute_metrics=compute_metrics,
+    preprocess_logits_for_metrics=preprocess_logits_for_metrics,
 )
 
 trainer.train()
