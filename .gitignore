@@ -1,6 +1,9 @@
 sequence-classification/logs/*
 sequence-classification/checkpoints/*
+sequence-classification/tokenizer/*
 translation-summarization/logs/*
 translation-summarization/checkpoints/*
+translation-summarization/tokenizer/*
 language-generation/logs/*
 language-generation/checkpoints/*
+language-generation/tokenizer/*
