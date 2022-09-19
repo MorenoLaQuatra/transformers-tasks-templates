@@ -42,7 +42,9 @@ python train_test_clf.py \
     --DATALOADER_NUM_WORKERS 4 \
     --USE_CUDA \
     --SAVE_TOTAL_LIMIT 2 \
-    --FP16 
+    --FP16 \
+    --PUSH_TO_HUB \
+    --HUB_MODEL_ID morenolq/distilbert-base-cased-emotion
 ```
 
 ---
@@ -74,5 +76,7 @@ python train_test_reg.py \
     --DATALOADER_NUM_WORKERS 4 \
     --USE_CUDA \
     --SAVE_TOTAL_LIMIT 2 \
-    --FP16 
+    --FP16 \
+    --PUSH_TO_HUB \
+    --HUB_MODEL_ID morenolq/distilbert-base-cased-hate-speech \
 ```
