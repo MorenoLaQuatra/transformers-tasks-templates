@@ -172,7 +172,6 @@ trainer = transformers.Trainer(
 )
 
 trainer.train()
-trainer.save_model(args.CHECKPOINT_DIR + "/best_model/")
 
 """
 ############################################################################################################

@@ -18,9 +18,9 @@ An overview of the tasks and their implementation status is provided below.
 
 The repository contains a script to train and test the model. It uses the Trainer class provided by the HuggingFace Transformers library. Each folder is dedicated to a specific task (or a set of tasks). The folder contains the training script and the dataset class for training a sequence-to-sequence model.
 
-- [Sequence Classification](sequence-classification/README.md)
-- [Sequence to sequence](translation-summarization/README.md)
-- [Text Generation](language-generation/README.md)
+- [Sequence Classification](sequence-classification/README.md): fine-tuned model can be found [here for regression](https://huggingface.co/morenolq/distilbert-base-cased-hate-speech) and [here for classification](https://huggingface.co/morenolq/distilbert-base-cased-emotion).
+- [Sequence to sequence](translation-summarization/README.md): fine-tuned model can be found [here](https://huggingface.co/morenolq/bart-base-xsum).
+- [Text Generation](language-generation/README.md): fine-tuned model can be found [here](https://huggingface.co/morenolq/distilgpt2-fables-demo).
 
 ---
 
