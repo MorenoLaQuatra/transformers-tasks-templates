@@ -35,6 +35,9 @@ test_list_text = [...]  # replace with your list of texts
 test_list_labels = [...]  # replace with your list of labels
 """
 
+id2label = None
+label2id = None
+
 if args.DATASET_FILE is not None:
     # If the DATASET_FILE argument is not None, the dataset is loaded from the file.
     dataset = pd.read_csv(args.DATASET_FILE, sep="\t")
@@ -49,9 +52,17 @@ if args.DATASET_FILE is not None:
     val_list_text, test_list_text, val_list_labels, test_list_labels = train_test_split(
         test_list_text, test_list_labels, test_size=0.5, random_state=42
     )
+
+    id2label = {0: "negative", 1: "positive"}
+    label2id = {"negative": 0, "positive": 1}
+    
 else:
     # Example using a dataset from datasets library.
     dataset = load_dataset("emotion")
+
+    id2label = {0: "sadness", 1: "joy", 2: "love", 3: "anger", 4: "fear", 5: "surprise"}
+    label2id = {v: k for k, v in id2label.items()}
+
     train_list_text = dataset["train"]["text"]
     train_list_labels = dataset["train"]["label"]
     val_list_text = dataset["validation"]["text"]
@@ -68,6 +79,8 @@ Here you need to define the model and the tokenizer you want to use.
 model = transformers.AutoModelForSequenceClassification.from_pretrained(
     args.MODEL_TAG,
     num_labels=len(set(train_list_labels)),
+    id2label=id2label,
+    label2id=label2id,
 )
 
 tokenizer = transformers.AutoTokenizer.from_pretrained(
