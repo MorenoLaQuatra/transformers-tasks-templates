@@ -208,7 +208,7 @@ Evaluate the model on the test set.
 ############################################################################################################
 """
 
-trainer.evaluate(summarization_test_dataset)
+print (trainer.evaluate(summarization_test_dataset))
 
 """
 ############################################################################################################

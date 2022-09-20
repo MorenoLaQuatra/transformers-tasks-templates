@@ -55,7 +55,7 @@ if args.DATASET_FILE is not None:
 
     id2label = {0: "negative", 1: "positive"}
     label2id = {"negative": 0, "positive": 1}
-    
+
 else:
     # Example using a dataset from datasets library.
     dataset = load_dataset("emotion")
@@ -192,7 +192,7 @@ Evaluate the model on the test set.
 ############################################################################################################
 """
 
-trainer.evaluate(sequence_classification_test_dataset)
+print (trainer.evaluate(sequence_classification_test_dataset))
 
 """
 ############################################################################################################

@@ -6,6 +6,22 @@ It is also possible to use the templates for training models on custom datasets 
 
 ---
 
+## Getting started
+
+The repository contains a folder for each task. Each folder contains a `README.md` file with a description of the task and the files contained in the folder. The `README.md` file also contains a description of the dataset format and a few examples of commands to train and test the model.
+
+Clone the repository and install the requirements:
+
+```bash
+git clone https://github.com/MorenoLaQuatra/transformers-tasks-templates.git
+cd transformers-tasks-templates
+pip install -r requirements.txt
+```
+
+Move to the folder of the task you want to train the model on and explore the files contained in the folder. Eead the `README.md` file to have a description of the task and the dataset format.
+
+---
+
 An overview of the tasks and their implementation status is provided below.
 
 - [x] Text classification (e.g., sentiment analysis)
@@ -70,16 +86,16 @@ Another text that can be used to infer the next word.
 
 Each folder also the `data` subfolder that contains some examples of tsv files with the correct format.
 
----
 
+---
 
 ## TODO
 
 - [x] Modify the management of the tokenizer. It is currently loaded in the dataset class. It should be loaded in the `train_test.py` script.
 - [ ] Translation example
-- [ ] Add a demo notebook/script to run inference on the trained model (each task).
+- [ ] Add a demo notebook/script to run inference on the trained model (each task - using pipelines).
 - [x] Add parameters to fine-tune the model on a custom dataset (e.g., csv file).
 - [x] Update the main README.md file to include links to the task-specific README.md files and a description of the repository.
 - [x] Manage push_to_hub() method to push the trained model to the hub (use argparse to specify the name of the repository).
 - [ ] Add non-language tasks (e.g., audio classification, image classification, etc.).
-- [ ] Make repository public.
+- [x] Make repository public.

@@ -189,7 +189,7 @@ Evaluate the model on the test set.
 ############################################################################################################
 """
 
-trainer.evaluate(sequence_classification_test_dataset)
+print (trainer.evaluate(sequence_classification_test_dataset))
 
 """
 ############################################################################################################
